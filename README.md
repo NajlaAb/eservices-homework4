@@ -248,7 +248,7 @@ networks:
 &nbsp;&nbsp; 7. depends: cela est nécessaire pour maintenir l'ordre. Le conteneur ProductService dépend de DiscoveryService et de ConfigService. Par conséquent, Docker s'assure que les conteneurs DiscoveryService et ConfigService sont créés avant le conteneur ProductService.
 
 ## Exécution
-&nbsp; Après avoir créé ces différents fichiers, construisons nos images, créons les conteneurs requis et démarrons avec la seule commande:
+&nbsp; Après avoir créé ces différents fichiers, construisons nos images, créons les conteneurs requis et démarrons avec la seule commande: <br/>
 <code>docker-compose up --build </code>
 
 <br/>
