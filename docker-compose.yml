@@ -1,11 +1,11 @@
 version: '2.0'
 services:
-    config-server:
-        container_name: config-server
+    config-service:
+        container_name: config-service
         build:
             context: .
-            dockerfile: Dockerfile-configserver
-        image: config-server:latest
+            dockerfile: Dockerfile-configservice
+        image: config-service:latest
         expose:
             - 8888
         ports:
@@ -14,15 +14,15 @@ services:
             - spring-cloud-network
         logging:
             driver: json-file
-    discovery-server:
-        container_name: discovery-server
+    discovery-service:
+        container_name: discovery-service
         build:
             context: .
-            dockerfile: Dockerfile-DiscoveryServer
-        image: discovery-server:latest
+            dockerfile: Dockerfile-DiscoveryService
+        image: discovery-service:latest
         entrypoint: /opt/bin/discoveryservice-entrypoint.sh
         environment:
-            SPRING_APPLICATION_JSON: '{"spring":{"cloud":{"config":{"uri":"http://config-server:8888"}}}}'
+            SPRING_APPLICATION_JSON: '{"spring":{"cloud":{"config":{"uri":"http://config-service:8888"}}}}'
             EUREKA_INSTANCE_PREFER_IP_ADDRESS: "false"
         expose:
             - 8761
@@ -31,9 +31,9 @@ services:
         networks:
             - spring-cloud-network
         links:
-            - config-server:config-server
+            - config-service:config-service
         depends_on:
-            - config-server
+            - config-service
         logging:
             driver: json-file
     product-service:
@@ -44,7 +44,7 @@ services:
         image: product-service:latest
         entrypoint: /opt/bin/productservice-entrypoint.sh
         environment:
-            SPRING_APPLICATION_JSON: '{"spring":{"cloud":{"config":{"uri":"http://config-server:8888"}}}}'
+            SPRING_APPLICATION_JSON: '{"spring":{"cloud":{"config":{"uri":"http://config-service:8888"}}}}'
         expose:
             - 8080
         ports:
@@ -52,22 +52,22 @@ services:
         networks:
             - spring-cloud-network
         links:
-            - config-server:config-server
-            - discovery-server:discovery-server
+            - config-service:config-service
+            - discovery-service:discovery-service
         depends_on:
-            - config-server
-            - discovery-server
+            - config-service
+            - discovery-service
         logging:
             driver: json-file
-    proxy-server:
-        container_name: proxy-server
+    proxy-service:
+        container_name: proxy-service
         build:
             context: .
-            dockerfile: Dockerfile-ProxyServer
-        image: proxy-server:latest
+            dockerfile: Dockerfile-ProxyService
+        image: proxy-service:latest
         entrypoint: /opt/bin/proxyservice-entrypoint.sh
         environment:
-            SPRING_APPLICATION_JSON: '{"spring":{"cloud":{"config":{"uri":"http://config-server:8888"}}}}'
+            SPRING_APPLICATION_JSON: '{"spring":{"cloud":{"config":{"uri":"http://config-service:8888"}}}}'
         expose:
             - 9999
         ports:
@@ -75,11 +75,11 @@ services:
         networks:
             - spring-cloud-network
         links:
-            - config-server:config-server
-            - discovery-server:discovery-server
+            - config-service:config-service
+            - discovery-service:discovery-service
         depends_on:
-            - config-server
-            - discovery-server
+            - config-service
+            - discovery-service
         logging:
             driver: json-file
 networks:
