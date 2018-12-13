@@ -231,7 +231,7 @@ networks:
         driver: bridge
 </code></pre>
 
-&nbsp; Le fichier de composition Docker ci-dessous contient quelques entrées importantes: <br/><br/>
+&nbsp; Le fichier de composition Docker ci-dessous contient quelques entrées importantes: <br/>
 
 &nbsp;&nbsp; 1. version: un champ obligatoire dans lequel nous devons conserver la version du format Docker Compose.
 
